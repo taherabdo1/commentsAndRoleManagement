@@ -1,7 +1,11 @@
 package mainEntry.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 /**
@@ -17,10 +21,11 @@ public class Comment implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 
-	private byte confirmed;
+	private boolean confirmed;
 
 	private String description;
 
+	@JsonBackReference
 	//bi-directional many-to-one association to User
 	@ManyToOne(fetch=FetchType.LAZY)
 	private User user;
@@ -36,11 +41,11 @@ public class Comment implements Serializable {
 		this.id = id;
 	}
 
-	public byte getConfirmed() {
+	public boolean getConfirmed() {
 		return this.confirmed;
 	}
 
-	public void setConfirmed(byte confirmed) {
+	public void setConfirmed(boolean confirmed) {
 		this.confirmed = confirmed;
 	}
 
