@@ -13,6 +13,7 @@ import mainEntry.model.User;
 import mainEntry.repositories.CommentRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +23,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@CrossOrigin(origins = "http://localhost:8081")
 @RestController
 public class CommentResource {
 
@@ -80,6 +82,7 @@ public class CommentResource {
 //			int id = Integer.parseInt(commentId);
 			List<Comment> comments = commentRepository.findByConfirmed(true);
 			System.out.println("comment from database: " + comments+"+++++++++++++++++++++++");
+			System.out.println("user of comment1 is" + comments.get(0).getUser().getEmail()+"----------------");
 			response.setHeader("Status", "200");
 		    OutputStream writer = null;
 			try {

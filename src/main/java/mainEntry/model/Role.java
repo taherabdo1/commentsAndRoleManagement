@@ -1,7 +1,12 @@
 package mainEntry.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 /**
@@ -19,6 +24,7 @@ public class Role implements Serializable {
 
 	private String name;
 
+	@JsonIgnore
 	// bi-directional many-to-one association to User
 	@OneToMany(mappedBy = "role")
 	private List<User> users;

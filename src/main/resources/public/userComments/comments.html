@@ -1,0 +1,21 @@
+ {{userName}}
+
+
+<table>
+	<thead>
+		<!-- <tr><th colspan="4">Your Notes</th></tr>
+       -->
+		<tr>
+			<th>Id &nbsp;</th>
+			<th>Description &nbsp;</th>
+			<th>sent By &nbsp;</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="commet in comments track by $index">
+			<td>{{commet.id}} &nbsp;</td>
+			<td>{{commet.description}} &nbsp;</td>
+			<td>{{commet.user.email}} &nbsp;</td>
+		</tr>
+	</tbody>
+</table>

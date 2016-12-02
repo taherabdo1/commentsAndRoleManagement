@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.List;
@@ -33,11 +34,12 @@ public class User implements Serializable {
 
 	private String password;
 
-	@JsonManagedReference
+	@JsonBackReference
 	//bi-directional many-to-one association to Comment
 	@OneToMany(mappedBy="user")
 	private List<Comment> comments;
 
+	@JsonIgnore
 	//bi-directional many-to-one association to Role
 	@ManyToOne(fetch=FetchType.LAZY)
 	private Role role;

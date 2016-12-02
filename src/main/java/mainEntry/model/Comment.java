@@ -25,9 +25,9 @@ public class Comment implements Serializable {
 
 	private String description;
 
-	@JsonBackReference
+	@JsonManagedReference
 	//bi-directional many-to-one association to User
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	private User user;
 
 	public Comment() {
