@@ -8,9 +8,11 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.Response;
 
+import mainEntry.dto.CommentDto;
 import mainEntry.model.Comment;
 import mainEntry.model.User;
 import mainEntry.repositories.CommentRepository;
+import mainEntry.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,6 +31,8 @@ public class CommentResource {
 
 	@Autowired
 	CommentRepository commentRepository;
+	@Autowired
+	UserRepository userRepository;
 
 	@RequestMapping(method = RequestMethod.POST, value = "/addComment", consumes = "application/json")
 	public String addComment(@RequestBody String json,
@@ -36,11 +40,13 @@ public class CommentResource {
 
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			Comment comment = mapper.readValue(json, Comment.class);
-			User user = new User();
-			user.setId(1);
-			comment.setUser(user);
-			commentRepository.save(comment);
+			CommentDto comment = mapper.readValue(json, CommentDto.class);
+		
+			Comment newComment = new Comment();
+			User user = userRepository.findByEmail(comment.getUserEmail());
+			newComment.setUser(user);
+			newComment.setDescription(comment.getDescription());
+			commentRepository.save(newComment);
 			System.out.println(comment.getDescription());
 
 		} catch (JsonParseException e) {
@@ -69,8 +75,16 @@ public class CommentResource {
 			comment.setConfirmed(true);
 			commentRepository.confirmComment(id);
 			response.setHeader("Status", "200");
-			return response.toString();
-		
+			ObjectMapper mapper = new ObjectMapper();
+		    OutputStream writer = null;
+			try {
+				writer = response.getOutputStream();
+				mapper.writeValue(writer,"done");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return response.toString();		
 
 	}
 	
@@ -81,8 +95,6 @@ public class CommentResource {
 		ObjectMapper mapper = new ObjectMapper();
 //			int id = Integer.parseInt(commentId);
 			List<Comment> comments = commentRepository.findByConfirmed(true);
-			System.out.println("comment from database: " + comments+"+++++++++++++++++++++++");
-			System.out.println("user of comment1 is" + comments.get(0).getUser().getEmail()+"----------------");
 			response.setHeader("Status", "200");
 		    OutputStream writer = null;
 			try {
@@ -105,7 +117,6 @@ public class CommentResource {
 		ObjectMapper mapper = new ObjectMapper();
 //			int id = Integer.parseInt(commentId);
 			List<Comment> comments = commentRepository.findByConfirmed(false);
-			System.out.println("comment from database: " + comments.size()+"+++++++++++++++++++++++");
 			response.setHeader("Status", "200");
 		    OutputStream writer = null;
 			try {

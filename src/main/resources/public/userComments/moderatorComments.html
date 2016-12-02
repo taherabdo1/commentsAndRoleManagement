@@ -1,10 +1,8 @@
- {{userName}}
 
 <button ng-click="logout()"
 	style="padding-left: 50px; padding-right: 50px" >Log out</button>
 
-<button ng-click="addCommentAction()"
-	style="padding-left: 50px; padding-right: 50px">Add Comment</button>
+
 <table>
 	<thead>
 		<!-- <tr><th colspan="4">Your Notes</th></tr>
@@ -13,6 +11,7 @@
 			<th>Id &nbsp;</th>
 			<th>Description &nbsp;</th>
 			<th>sent By &nbsp;</th>
+			<th>Confirm &nbsp;</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -20,6 +19,10 @@
 			<td>{{commet.id}} &nbsp;</td>
 			<td>{{commet.description}} &nbsp;</td>
 			<td>{{commet.user.email}} &nbsp;</td>
+			<td><button ng-click="confirmCommet($index)" style="padding-left: 50px;
+				padding-right: 50px">Confirm
+				</button>
+			</td>
 		</tr>
 	</tbody>
 </table>

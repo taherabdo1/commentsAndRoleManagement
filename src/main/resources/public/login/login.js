@@ -55,18 +55,32 @@ angular
 															'Content-Type' : 'application/x-www-form-urlencoded'
 														},
 														data : {}
-													}).success(
-													function(response) {
+													})
+													.success(
+															function(response) {
 
-														if(response.authorities[1].authority == 'user'){
-															console.log("this is a normal user");
-															$location.path("/userComments");
-															
-														}else{
-														//go to the monitor page	
-														}
-														console.log(response);
-													});
+																$rootScope.userEmail = response.name;
+																if (response.authorities[0].authority == 'user') {
+																	// go to the
+																	// ordinary
+																	// users
+																	// page
+																	console
+																			.log("this is a normal user");
+																	$location
+																			.path("/userComments");
+
+																} else {
+																	// go to the
+																	// monitor
+																	// page
+																	$location
+																	.path("/moderatorComments");
+
+																}
+																console
+																		.log(response);
+															});
 
 										});
 
@@ -100,4 +114,3 @@ angular
 // $log.log("from login: " + $rootScope.token);
 // $location.path("/notes");
 // }
-

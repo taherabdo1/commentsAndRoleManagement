@@ -10,4 +10,5 @@ import org.springframework.data.repository.CrudRepository;
 @Transactional
 public interface UserRepository   extends CrudRepository<User, Integer>{
 
+	public User findByEmail(String email);
 }

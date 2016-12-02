@@ -50,7 +50,7 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
 				.usersByUsernameQuery(
 						"select email ,password, true from user where email=?")
 				.authoritiesByUsernameQuery(
-						"select user.email, role.name from user,role where email=?");
+						"select user.email, role.name from user,role where email=? and role.id = user.role");
 	}
 
 	@Override
@@ -62,10 +62,6 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
 		// .successHandler(authenticationSuccessHandler)
 		// .failureHandler(new SimpleUrlAuthenticationFailureHandler())
 		// .and().logout();
-
-		System.out
-		.println("inside jdbc user authentication++++++++++++++++++++");
-
 		
 		http.httpBasic()
 		.and().authorizeRequests()
