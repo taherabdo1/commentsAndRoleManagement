@@ -5,6 +5,12 @@ var app = angular.module('myApp.comments', [ 'ngRoute']);
 app.controller('userCommentsCtrl', function($scope, $rootScope, $http, $log,
 		$location, $routeParams, $filter) {
 
+	//check if the user is logged in
+	$scope.authorize = function(){
+		if($rootScope.userEmail == undefined || $rootScope.userEmail == "")
+			$location.path("/login");
+	}
+
 	$scope.getCommets = function() {
 
 		console.log("inside getComments function in the comments page");
@@ -29,10 +35,14 @@ app.controller('userCommentsCtrl', function($scope, $rootScope, $http, $log,
 			url : 'http://localhost:8080/logout',
 		}).success(function(response) {
 			$location.path("/login");
+			$rootScope.userEmail = undefined;
+			console.log("user loged out");
 			console.log(response);
 		});
 	}
 
+	//call the authorize finction
+	$scope.authorize();
 	$scope.getCommets();
 
 });
@@ -42,8 +52,14 @@ app
 				'addCommentCtrl',
 				function($scope, $rootScope, $http, $log, $location,
 						$routeParams, $filter) {
-
+					
+					//check if the user is logged in
+					$scope.authorize = function(){
+						if($rootScope.userEmail == undefined || $rootScope.userEmail == "")
+							$location.path("/login");
+					}
 					$scope.add = function() {
+
 
 						var reqData = {
 							description : $scope.comment.description,
@@ -67,5 +83,7 @@ app
 					$scope.cancel = function(){
 						$location.path("/userComments");
 					}
+					//call the authorize finction
+					$scope.authorize();
 
 				});

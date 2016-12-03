@@ -5,6 +5,12 @@ var app = angular.module('myApp.comments');
 app.controller('moderatorCommentsCtrl', function($scope, $rootScope, $http,
 		$log, $location, $routeParams, $filter) {
 
+	//check if the user is logged in
+	$scope.authorize = function(){
+		if($rootScope.userEmail == undefined || $rootScope.userEmail == "")
+			$location.path("/login");
+	}
+
 	$scope.getCommets = function() {
 
 		console.log("inside getComments function in the comments page");
@@ -45,10 +51,15 @@ app.controller('moderatorCommentsCtrl', function($scope, $rootScope, $http,
 			url : 'http://localhost:8080/logout',
 		}).success(function(response) {
 			$location.path("/login");
+			$rootScope.userEmail = undefined;
 			console.log(response);
 		});
 	}
 
+
+	//call the authorize finction
+	$scope.authorize();
+	
 	// call getComments once the page is loaded
 	$scope.getCommets();
 });

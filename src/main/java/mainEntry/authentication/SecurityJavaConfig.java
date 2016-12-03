@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.http.HttpMethod;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
@@ -44,32 +45,25 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
 	public void configAuthentication(AuthenticationManagerBuilder auth)
 			throws Exception {
 
-
 		auth.jdbcAuthentication()
 				.dataSource(dataSource)
 				.usersByUsernameQuery(
 						"select email ,password, true from user where email=?")
 				.authoritiesByUsernameQuery(
-						"select user.email, role.name from user,role where email=? and role.id = user.role");
+						"select user.email , role.name from user,role where email=? and role.id = user.role");
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		// http.csrf().disable().exceptionHandling()
-		// .authenticationEntryPoint(restAuthenticationEntryPoint).and()
-		// .authorizeRequests().antMatchers("/getAllCommentsForUser")
-		// .authenticated().and().formLogin()
-		// .successHandler(authenticationSuccessHandler)
-		// .failureHandler(new SimpleUrlAuthenticationFailureHandler())
-		// .and().logout();
-		
+
 		http.httpBasic()
-		.and().authorizeRequests()
-//			   .antMatchers("/login").permitAll()
-			   .antMatchers("/logout").authenticated()
-				.antMatchers("/getAllCommentsForUser").authenticated()
 				.and()
-				.formLogin().successHandler(authenticationSuccessHandler)
+				.authorizeRequests()
+				.antMatchers("/logout")
+				.authenticated()
+				.antMatchers(HttpMethod.POST, "/getAllCommentsForUser","/addComment").hasRole("USER")
+				.antMatchers(HttpMethod.POST, "/confirmComment","/getAllUnconfirmedComments").hasRole("MODERATOR")
+				.and().formLogin().successHandler(authenticationSuccessHandler)
 				.failureHandler(new SimpleUrlAuthenticationFailureHandler())
 				.and().logout().and().csrf().disable();
 

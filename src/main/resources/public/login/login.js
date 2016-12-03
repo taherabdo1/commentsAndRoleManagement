@@ -60,7 +60,7 @@ angular
 															function(response) {
 
 																$rootScope.userEmail = response.name;
-																if (response.authorities[0].authority == 'user') {
+																if (response.authorities[0].authority == 'ROLE_USER') {
 																	// go to the
 																	// ordinary
 																	// users
