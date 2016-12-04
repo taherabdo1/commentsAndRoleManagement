@@ -20,6 +20,7 @@ import java.util.List;
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@JsonIgnore
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
@@ -32,6 +33,7 @@ public class User implements Serializable {
 	@Column(name="last_name")
 	private String lastName;
 
+	@JsonIgnore
 	private String password;
 
 	@JsonBackReference

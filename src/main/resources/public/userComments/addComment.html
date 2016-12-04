@@ -1,7 +1,10 @@
-
-Add Comment:
-			<td><input type="text" ng-model="comment.description"></input></td>
-			<td><button ng-click="cancel()"
-					style="padding-left: 50px; padding-right: 50px">cancel</button></td>
-			<td><button ng-click="add()"
-					style="padding-left: 50px; padding-right: 50px">save</button></td>
+ Add Comment:
+ 
+<span ng-show="showError" style="color: red">Description is
+	Required</span>
+<textarea type="text" cols="80" rows="8" ng-model="comment.description"
+	required></textarea>
+<br/>
+<button ng-click="cancel()"
+	style="padding-left: 50px; padding-right: 50px">cancel</button>
+<button ng-click="add()" style="padding-left: 50px; padding-right: 50px">save</button>
