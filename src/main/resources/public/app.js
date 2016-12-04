@@ -10,7 +10,7 @@ angular.module(
 					$locationProvider.hashPrefix('!');
 
 					$routeProvider.otherwise({
-						redirectTo : '/view1'
+						redirectTo : '/login'
 					});
 				} ]).config([ '$routeProvider', function($routeProvider) {
 	$routeProvider.when('/login', {
