@@ -8,9 +8,9 @@ web application that would allow users to login and post comments. The comments 
 Technologies that should be used:
 
 - Spring Boot
-- Spring Security (login using custom db ajax authentication)
+- Spring Security
 - Spring Data
 - JPA/Hibernate
-- MySQL or PostgreSQL
-- AngularJS or jQuery for frontend
+- MySQL
+- AngularJS for frontend
 - Maven
